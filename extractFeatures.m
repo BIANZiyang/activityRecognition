@@ -140,12 +140,14 @@ switch config.dataset
                         data(k3).angledata = [thetas'];
                         data(k3).veldata = [jVel'];
                         data(k3).sphdata = [sphW(:,1:2)'];
+                        data(k3).jointLoc = [transformedCoors(2:end,:)];
                     end
                     output(ind).action = str2num(tmpstr(2:3));
                     output(ind).numFrames = frmcnt;
                     output(ind).veldata = {data.veldata};
                     output(ind).angledata = {data.angledata};
                     output(ind).sphdata = {data.sphdata};
+                    output(ind).jointLoc = {data.jointLoc};
                     output(ind).subject = str2num(tmpstr(6:7));
 
                     ind = ind+1;

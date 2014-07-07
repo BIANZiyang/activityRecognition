@@ -15,10 +15,10 @@ for k = 1 : subnum
 %         disp(sprintf('subj(1,k): %d',subj(1,k)));
         if featset(i).subject ~= subj(1,k)
             traindata = cat(1, traindata, featset(i).features);
-            trainlabel = cat(1, trainlabel, featset(i).label);
+            trainlabel = cat(1, trainlabel, featset(i).action);
         else
             testdata = cat(1, testdata, featset(i).features);
-            testlabel = cat(1, testlabel, featset(i).label);
+            testlabel = cat(1, testlabel, featset(i).action);
         end
     end
      
@@ -33,8 +33,8 @@ for k = 1 : subnum
 % testdata = double(testdata);
 % 
 tic
-   model = train(trainlabel, sparse(traindata), '-s 4 -c 10');
-   yHat = predict(testlabel, sparse(testdata), model);
+   model = svmtrain(trainlabel, sparse(traindata), '-s 3 -c 10 -b 1');
+   [out, accuracy, yHat] = svmpredict(testlabel, sparse(testdata), model,'-b 1')
 toc
    %    
  %    
@@ -44,8 +44,8 @@ toc
 %   mdl = ClassificationKNN.fit(traindata,trainlabel);
 %  [yHat] = predict(mdl,testdata);
 %  plotConfusion(testlabel,yHat);
-   nerrs  = sum(yHat ~= testlabel);
-   acc(k) = 1-nerrs/size(testlabel,1)
+%    nerrs  = sum(yHat ~= testlabel);
+%    acc(k) = 1-nerrs/size(testlabel,1)
 end
 disp(['mean accuracy=' num2str(mean(acc))]);
 end
